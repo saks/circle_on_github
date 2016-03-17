@@ -18,6 +18,6 @@
     "title": "Circle CI token",
     "description": "Token that will be used to get info about CI builds.",
     "type": "string",
-    "value": "<paste-token-here>"
+    "value": "<paste token here>"
   }]
 }
