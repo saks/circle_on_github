@@ -1,13 +1,13 @@
 {
   "title": "Circle On Github",
   "name": "circleongithub",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "Integrates circle CI information info github pages",
   "main": "index.js",
   "author": "saksmlz@gmail.com",
   "engines": {
-    "firefox": ">=38.0a1",
-    "fennec": ">=38.0a1"
+    "firefox": ">=43.0",
+    "fennec": ">=43.0"
   },
   "license": "MIT",
   "keywords": [

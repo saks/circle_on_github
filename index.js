@@ -1,6 +1,11 @@
 var self = require('sdk/self');
 var panels = require('sdk/panel');
 
+var ui = require('sdk/ui');
+var { ToggleButton } = require('sdk/ui/button/toggle');
+var tabs = require("sdk/tabs");
+var Request = require("sdk/request").Request;
+
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
 function dummy(text, callback) {
@@ -44,12 +49,9 @@ function countReportOffenses(reportUrl) {
   d.innerText
 }
 
-var ui = require('sdk/ui');
-var { ToggleButton } = require('sdk/ui/button/toggle');
-var tabs = require("sdk/tabs");
-var Request = require("sdk/request").Request;
+function findReportUrl(tab) {
+  console.log('refresh data');
 
-tabs.on('ready', function(tab) {
   if (!tab.url.includes('github.com')) return;
 
   var worker = tab.attach({
@@ -77,13 +79,14 @@ tabs.on('ready', function(tab) {
 
       // var panel = CreatePanel(reportUrl);
       // panel.show({ position: { top: 0 } });
-
-
-
-
     })
   })
-});
+}
+
+
+
+tabs.on('ready', findReportUrl);
+tabs.on('activate', findReportUrl);
 
 
 function CreatePanel(url) {
