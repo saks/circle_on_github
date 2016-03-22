@@ -12,10 +12,6 @@ function dummy(text, callback) {
   callback(text);
 }
 
-const ReportOptions = {
-  reportUrl: null,
-}
-
 var button = ToggleButton({
   id: 'my-button',
   label: 'CircleCI',
@@ -49,15 +45,30 @@ function countReportOffenses(reportUrl) {
   d.innerText
 }
 
-function findReportUrl(tab) {
-  console.log('refresh data');
 
-  if (!tab.url.includes('github.com')) return;
+function CreatePanel(url) {
+  var panel = require("sdk/panel").Panel({
+    contentURL: url,
+    width: 1000,
+    height: 500,
+    onHide: handleHide
+  });
 
-  var worker = tab.attach({
+  return panel
+}
+
+var { ActionButton } = require("sdk/ui/button/action");
+
+function handleChange(state) {
+
+  var worker = tabs.activeTab.attach({
     contentScriptFile: "./content-script.js",
   });
 
+  worker.port.on("noBuildUrl", function(buildUrl) {
+    // console.log('no build url!!!')
+    // worker.port.emit('msg', 'no buld url!!!')
+  })
   worker.port.on("buildUrl", function(buildUrl) {
     var parts = buildUrl.split('/');
 
@@ -73,74 +84,17 @@ function findReportUrl(tab) {
       var token = require("sdk/simple-prefs").prefs.token;
       var reportUrl = reportUrl + '?circle-token=' + token;
 
-      // worker.port.emit('reportUrl', reportUrl);
+      var panel = CreatePanel(reportUrl);
 
-      ReportOptions.reportUrl = reportUrl;
-
-      // var panel = CreatePanel(reportUrl);
-      // panel.show({ position: { top: 0 } });
+      if (state.checked) {
+        panel.show({
+          position: {
+            top: 0,
+          },
+        });
+      }
     })
   })
-}
-
-
-
-tabs.on('ready', findReportUrl);
-tabs.on('activate', findReportUrl);
-
-
-function CreatePanel(url) {
-  var panel = require("sdk/panel").Panel({
-    contentURL: url,
-    width: 1000,
-    height: 500,
-    onHide: handleHide
-  });
-
-  return panel
-}
-
-
-
-
-// tabs.on('activate', function(tab) {
-//   var worker = tab.attach({
-//     contentScript: 'self.port.emit("html", document.body.innerHTML);'
-//   });
-//   worker.port.on("html", function(message) {
-//     console.log(message)
-//   })
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-var { ActionButton } = require("sdk/ui/button/action");
-
-
-
-// console.log(require("sdk/simple-prefs").prefs.token);
-
-function handleChange(state) {
-  if (ReportOptions.reportUrl) {
-    var panel = CreatePanel(ReportOptions.reportUrl);
-
-    if (state.checked) {
-      panel.show({
-        position: {
-          top: 0,
-        },
-      });
-    }
-  }
 }
 
 function handleHide() {
