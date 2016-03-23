@@ -1,7 +1,7 @@
 {
   "title": "Circle On Github",
   "name": "circleongithub",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Integrates circle CI information info github pages",
   "main": "index.js",
   "author": "saksmlz@gmail.com",
@@ -13,11 +13,27 @@
   "keywords": [
     "jetpack"
   ],
-  "preferences": [{
-    "name": "token",
-    "title": "Circle CI token",
-    "description": "Token that will be used to get info about CI builds.",
-    "type": "string",
-    "value": "<paste token here>"
-  }]
+  "preferences": [
+    {
+      "name": "token",
+      "title": "Circle CI token",
+      "description": "Token that will be used to get info about CI builds.",
+      "type": "string",
+      "value": "<paste token here>"
+    },
+    {
+      "name": "panel_height",
+      "title": "Report panel height",
+      "description": "Height of the panel displaing rubocop report",
+      "type": "integer",
+      "value": 500
+    },
+    {
+      "name": "panel_width",
+      "title": "Report panel width",
+      "description": "Width of the panel displaing rubocop report",
+      "type": "integer",
+      "value": 1000
+    }
+  ]
 }
